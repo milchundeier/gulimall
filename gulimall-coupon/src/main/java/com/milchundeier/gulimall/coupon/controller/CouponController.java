@@ -5,6 +5,8 @@ import com.milchundeier.common.utils.R;
 import com.milchundeier.gulimall.coupon.entity.CouponEntity;
 import com.milchundeier.gulimall.coupon.service.CouponService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -19,11 +21,22 @@ import java.util.Map;
  * @email lzyphil@gmail.com
  * @date 2021-06-16 22:02:26
  */
+@RefreshScope
 @RestController
 @RequestMapping("coupon/coupon")
 public class CouponController {
     @Autowired
     private CouponService couponService;
+
+    @Value("${coupon.user.name}")
+    private String name;
+    @Value("${coupon.user.age}")
+    private Integer age;
+
+    @RequestMapping("/test")
+    public R test(){
+    return R.ok().put("name",name).put("age",age);
+    }
 
     @RequestMapping("/member/list")
     public R membercoupons(){
